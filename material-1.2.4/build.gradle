@@ -1,2 +1,0 @@
-configurations.maybeCreate("default")
-artifacts.add("default", file('material-1.2.4.aar'))
