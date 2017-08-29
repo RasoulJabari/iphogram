@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="ir.radius.iphogram"
+    android:installLocation="auto">
+
+
+    <uses-sdk tools:overrideLibrary="co.ronash.pushe" />
+    <permission android:name="ir.radius.iphogram.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+    <uses-permission android:name="ir.radius.iphogram.permission.C2D_MESSAGE" />
+    <!-- Optional permissions -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+
+
+    <uses-feature android:name="android.hardware.location.gps" android:required="false" />
+    <uses-feature android:name="android.hardware.location.network" android:required="false" />
+    <uses-feature android:name="android.hardware.location" android:required="false" />
+    <uses-feature android:name="android.hardware.LOCATION" android:required="false" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="ir.radius.iphogram.permission.MAPS_RECEIVE"/>
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/>
+    <permission android:name="ir.radius.iphogram.permission.MAPS_RECEIVE" android:protectionLevel="signature"/>
+
+    <permission android:name="ir.radius.iphogram.android.provider.ACCESS" android:protectionLevel="signature"/>
+
+    <application
+        android:name="org.telegram.messenger.ApplicationLoader"
+        android:allowBackup="false"
+        tools:replace="android:icon"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/AppName"
+        android:vmSafeMode="true"
+        android:theme="@style/Theme.TMessages.Start"
+        android:hardwareAccelerated="@bool/useHardwareAcceleration"
+        android:largeHeap="true">
+
+        <meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyBDdj0ysbCVkEIMCJfIPmh2h0jU0kT8-uw" />
+
+        <activity android:name="net.hockeyapp.android.UpdateActivity" />
+        <activity android:name="net.hockeyapp.android.LoginActivity" />
+        <meta-data android:name="net.hockeyapp.android.appIdentifier" android:value="a3943e54f55b48a8b03016dcdb96fcfe" />
+        <activity
+            android:name="telegramplus.CustomLanguageSelectActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
+
+
+        <uses-library android:name="com.google.android.maps" android:required="false"/>
+
+        <provider
+            android:authorities="ir.radius.iphogram.android.provider.content"
+            android:name="org.telegram.messenger.ModuleContentProvider"
+            android:label="@string/AppName"
+            android:exported="true"
+            android:permission="ir.radius.iphogram.android.provider.ACCESS" />
+
+        <activity android:name="telegramplus.markers.MarkersActivity"/>
+        <receiver android:name="telegramplus.userTracking.AlarmService" />
+        <receiver
+            android:name="org.telegram.messenger.PopupReplyReceiver"
+            android:enabled="true" />
+
+        <receiver
+            android:name="telegramplus.markAsReadReceiver"
+            android:enabled="true" />
+
+        <receiver android:name="co.ronash.pushe.receiver.UpdateReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
+                <data
+                    android:path="ir.radius.iphogram"
+                    android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="ir.radius.iphogram" />
+            </intent-filter>
+        </receiver>
+
+        <meta-data android:name="co.ronash.pushe.token" android:value="PUSHE_439509661494"/>
+        <meta-data android:name="co.ronash.pushe.cr" android:value="aHR0cDovL2FmYzQ1YzE5MDZkZjQ1OWJhZjMzZDVmZDI4ZjVhYmFjOjZiZTEzMGE0YmY2ODQyM2ViNWFkYTc1N2U4ZDE4ZjFiQGNhLnB1c2hlLmlyLzEwNTk3"/>
+
+        <service android:exported="false" android:name="org.telegram.ui.MyPushListener">
+            <intent-filter>
+                <action android:name="co.ronash.pushe.RECEIVE"/>
+            </intent-filter>
+        </service>
+
+        <activity android:name="net.hockeyapp.android.FeedbackActivity"/>
+        <activity android:name="net.hockeyapp.android.PaintActivity"/>
+        <activity android:name="net.hockeyapp.android.ExpiryInfoActivity"/>
+        <activity android:exported="false" android:name="com.google.android.gms.common.api.GoogleApiActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <service android:exported="false" android:name="co.ronash.pushe.service.GcmService">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+            </intent-filter>
+        </service>
+        <receiver android:exported="true" android:name="co.ronash.pushe.receiver.FallbackGcmNetworkManagerReceiver">
+            <intent-filter>
+                <action android:name="co.ronash.pushe.CHECK_TASKS"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="co.ronash.pushe.receiver.BootAndScreenReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+        <service android:name="co.ronash.pushe.service.ScreenStateService">
+            <intent-filter>
+                <action android:name="co.ronash.pushe.service.ScreenStateService"/>
+            </intent-filter>
+        </service>
+        <receiver android:name="co.ronash.pushe.receiver.ConnectivityReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+        <activity android:name="co.ronash.pushe.activities.WebviewActivity"/>
+        <receiver android:name="co.ronash.pushe.receiver.AppUsageAlarmReceiver"/>
+        <receiver android:exported="false" android:name="co.ronash.pushe.receiver.AddReceiver">
+            <intent-filter>
+                <action android:name="com.evernote.android.job.ADD_JOB_CREATOR"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="co.ronash.pushe.receiver.AppChangeReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_INSTALL"/>
+                <action android:name="android.intent.action.PACKAGE_ADDED"/>
+                <action android:name="android.intent.action.PACKAGE_FULLY_REMOVED"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+        </receiver>
+        <service android:exported="false" android:name="co.ronash.pushe.service.FallbackGcmTaskRunner">
+            <intent-filter>
+                <action android:name="co.ronash.pushe.ACTION_TASK_READY"/>
+            </intent-filter>
+        </service>
+        <service android:exported="true" android:name="co.ronash.pushe.task.scheduler.gcm.GcmTaskRunner" android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE">
+            <intent-filter>
+                <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY"/>
+            </intent-filter>
+        </service>
+        <service android:exported="false" android:name="co.ronash.pushe.service.IntentTaskRunner"/>
+        <service android:exported="false" android:name="co.ronash.pushe.service.InstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID"/>
+            </intent-filter>
+        </service>
+        <activity android:name="co.ronash.pushe.activities.PopupDialogActivity" android:theme="@style/PusheTransparent"/>
+        <service android:exported="true" android:name="com.evernote.android.job.gcm.PlatformGcmService" android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE">
+            <intent-filter>
+                <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY"/>
+            </intent-filter>
+        </service>
+    </application>
+
+
+</manifest>

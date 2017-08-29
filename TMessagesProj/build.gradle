@@ -1,0 +1,184 @@
+apply plugin: 'com.android.application'
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven {
+        url "https://jitpack.io"
+    }
+
+}
+
+
+configurations {
+//    compile.exclude module: 'support-v4'
+}
+
+
+
+dependencies {
+    compile 'com.google.android.gms:play-services-gcm:9.4.0'
+    compile 'com.google.android.gms:play-services-maps:9.4.0'
+    compile 'com.google.android.gms:play-services-vision:9.4.0'
+    compile 'com.android.support:support-core-ui:24.2.1'
+    compile 'com.android.support:support-compat:24.2.1'
+    compile 'com.android.support:support-core-utils:24.2.1'
+    compile 'com.android.support:support-v13:24.2.1'
+    compile 'com.android.support:palette-v7:24.2.1'
+    compile 'net.hockeyapp.android:HockeySDK:4.0.1'
+    compile 'com.googlecode.mp4parser:isoparser:1.0.6'
+    compile 'com.google.android.gms:play-services-analytics:9.4.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.android.support:cardview-v7:24.2.1'
+    compile files('libs/commons-io-2.5.jar')
+    compile 'com.google.firebase:firebase-crash:9.4.0'
+    compile 'com.google.firebase:firebase-messaging:9.4.0'
+    compile 'com.wdullaer:materialdatetimepicker:3.2.2'
+    compile 'com.android.support:recyclerview-v7:24.2.1'
+    compile 'com.android.support:support-v4:24.2.1'
+    compile project(':material-1.2.4')
+    compile 'co.ronash.android:pushe-base:1.2.0'
+    compile 'com.github.jlhonora:multistatetogglebutton:0.2.1'
+    compile 'com.mcxiaoke.volley:library:1.0.19'
+}
+
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion '24.0.0'
+
+    useLibrary 'org.apache.http.legacy'
+    defaultConfig.applicationId = "ir.radius.iphogram"
+
+//    sourceSets.main.jniLibs.srcDirs = ['./jni/']
+    sourceSets.main {
+        jniLibs.srcDir 'libs'
+        jni.srcDirs = [] //disable automatic ndk-build call
+    }
+
+
+    dexOptions {
+        jumboMode true
+        javaMaxHeapSize "4g"
+    }
+
+//    externalNativeBuild {
+//        ndkBuild {
+//            path "jni/Android.mk"
+//        }
+//    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+//    signingConfigs {
+//        debug {
+//            storeFile file("config/release.keystore")
+//            storePassword RELEASE_STORE_PASSWORD
+//            keyAlias RELEASE_KEY_ALIAS
+////            keyPassword RELEASE_KEY_PASSWORD
+//            v2SigningEnabled false
+//        }
+//
+//        release {
+//            storeFile file("config/release.keystore")
+////            storePassword RELEASE_STORE_PASSWORD
+////            keyAlias RELEASE_KEY_ALIAS
+//////            keyPassword RELEASE_KEY_PASSWORD
+////            v2SigningEnabled false
+//        }
+//    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            jniDebuggable true
+//            signingConfig signingConfigs.debug
+        }
+        release {
+            debuggable false
+            jniDebuggable false
+//            signingConfig signingConfigs.release
+//            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        foss {
+            debuggable false
+            jniDebuggable false
+//            signingConfig signingConfigs.release
+        }
+    }
+
+
+
+
+    defaultConfig.versionCode = 1
+
+    sourceSets.debug {
+        manifest.srcFile 'config/debug/AndroidManifest.xml'
+    }
+
+    sourceSets.release {
+        manifest.srcFile 'config/debug/AndroidManifest.xml'
+    }
+
+    sourceSets.foss {
+        manifest.srcFile 'config/debug/AndroidManifest.xml'
+    }
+
+    productFlavors {
+        x86 {
+            ndk {
+                abiFilter "x86"
+            }
+            versionCode = 5
+            minSdkVersion 14
+            targetSdkVersion 24
+            versionName '1.0.0'
+        }
+        armv7 {
+            ndk {
+                abiFilter "armeabi-v7a"
+            }
+            versionCode = 4
+            minSdkVersion 14
+            targetSdkVersion 24
+            versionName '1.0.0'
+        }
+        fat {
+            versionCode = 6
+            minSdkVersion 14
+            targetSdkVersion 24
+            versionName '1.0.0'
+        }
+    }
+
+    applicationVariants.all { variant ->
+        def abiVersion = variant.productFlavors.get(0).versionCode
+        variant.mergedFlavor.versionCode = defaultConfig.versionCode * 10 + abiVersion;
+    }
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 24
+        versionName "1.0.0"
+        multiDexEnabled true
+
+//        externalNativeBuild {
+//            ndkBuild {
+//                arguments "NDK_APPLICATION_MK:=jni/Application.mk", "APP_PLATFORM:=android-14"
+//                abiFilters "armeabi-v7a", "x86"
+//            }
+//        }
+    }
+
+}
+
+apply plugin: 'com.google.gms.google-services'
